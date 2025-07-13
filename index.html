@@ -3,8 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Portfolio</title>
-  <link rel="stylesheet" href="style.css">
+  <title>Sumina Shrestha's Portfolio</title>
 </head>
 
 <style>
@@ -19,6 +18,7 @@ body {
   background: #f4f4f4;
   color: #333;
   line-height: 1.6;
+  scroll-behavior: smooth;
 }
 
 header {
@@ -26,16 +26,34 @@ header {
   color: #fff;
   padding: 2rem;
   text-align: center;
+  opacity: 0;
+  animation: fadeIn 1s ease-in forwards;
 }
 
 header h1 {
   font-size: 2.5rem;
+  transform: translateY(20px);
+  animation: slideUp 0.8s ease-out forwards 0.5s;
+}
+
+header p {
+  font-size: 1.2rem;
+  opacity: 0;
+  animation: fadeIn 1s ease-in forwards 1s;
 }
 
 .about, .projects, .contact {
   padding: 2rem;
   max-width: 900px;
   margin: auto;
+  opacity: 0;
+  transform: translateY(30px);
+  transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+.section-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
 
 .projects {
@@ -49,11 +67,22 @@ header h1 {
   margin: 1rem 0;
   background: #f9f9f9;
   border-radius: 8px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.project-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
 }
 
 .contact a {
   color: #007acc;
   text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.contact a:hover {
+  color: #005f99;
 }
 
 footer {
@@ -62,10 +91,20 @@ footer {
   background: #333;
   color: #fff;
   margin-top: 2rem;
+  opacity: 0;
+  animation: fadeIn 1s ease-in forwards 1.5s;
 }
 
-</style>
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
 
+@keyframes slideUp {
+  from { transform: translateY(20px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+</style>
 
 <body>
   <header>
@@ -75,7 +114,7 @@ footer {
 
   <section class="about">
     <h2>About Me</h2>
-    <p>Hello! I'm a passionate developer learning new things every day. I love building creative and user-friendly websites.</p>
+    <p>Hello! I'm Sumina Shrestha, a 17-year-old passionate developer from Bhaktapur, studying at Adarsha Secondary School. I love building creative and user-friendly websites and learning new technologies every day.</p>
   </section>
 
   <section class="projects">
@@ -92,14 +131,29 @@ footer {
 
   <section class="contact">
     <h2>Contact</h2>
-    <p>Email: yourname@example.com</p>
+    <p>Email: sumina.shrestha@example.com</p>
     <p>GitHub: 
-      <a href="https://github.com/yourusername" target="_blank">github.com/yourusername</a>
+      <a href="https://github.com/suminashrestha" target="_blank">github.com/suminashrestha</a>
     </p>
   </section>
 
   <footer>
-    <p>© 2025 Your Name. All rights reserved.</p>
+    <p>© 2025 Sumina Shrestha. All rights reserved.</p>
   </footer>
+
+  <script>
+    // Intersection Observer for section animations
+    const sections = document.querySelectorAll('.about, .projects, .contact');
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('section-visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.2 });
+
+    sections.forEach(section => observer.observe(section));
+  </script>
 </body>
 </html>
